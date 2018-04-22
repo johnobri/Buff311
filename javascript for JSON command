@@ -1,0 +1,157 @@
+function main() {
+    var keyword = (word1 || "").toLowerCase();
+    if (keyword == 'buff311'){
+        sendReply("Welcome to Buff311 Status Check! Would you like to check by:\nA) Reference Number\nB) ZIP\nC) Street\n\nReply STOP to quit, HELP for info,\nMsg&DataRatesMayApply");
+       waitForResponse('response');
+    }
+}
+addResponseHandler('response', function(){
+    var keyword = (word1 || "").toLowerCase();
+    if (keyword == 'a)'){
+        sendReply("What is your case reference number?");
+        waitForResponse('reference number');
+    }
+    else if (keyword == 'a'){
+        sendReply("What is your case reference number?");
+        waitForResponse('reference number');
+    }
+    else if (keyword == 'reference'){
+        sendReply("What is your case reference number?");
+        waitForResponse('reference number');
+    }
+    else if (keyword == 'b'){
+        sendReply("Reply with a Buffalo ZIP code to find out the number of open 311 requests.");
+        waitForResponse('zip');
+    }
+    else if (keyword == 'b)'){
+        sendReply("Reply with a Buffalo ZIP code to find out the number of open 311 requests.");
+        waitForResponse('zip');
+    }
+    else if (keyword == 'zip'){
+        sendReply("Reply with a Buffalo ZIP code to find out the number of open 311 requests.");
+        waitForResponse('zip');
+    }    
+    else if (keyword == 'c'){
+        sendReply("Reply with a Buffalo street name to find out the number of open 311 requests. Use only the street name (e.g., for Main Street, enter only Main or MAIN).");
+        waitForResponse('street');
+    }
+    else if (keyword == 'c)'){
+        sendReply("Reply with a Buffalo street name to find out the number of open 311 requests. Use only the street name (e.g., for Main Street, enter only Main or MAIN).");
+        waitForResponse('street');
+    }
+    else if (keyword == 'street'){
+        sendReply("Reply with a Buffalo street name to find out the number of open 311 requests. Use only the street name (e.g., for Main Street, enter only Main or MAIN).");
+        waitForResponse('street');    
+    }
+});
+
+addResponseHandler('reference number', function(){
+    contact.vars.case_reference = content;
+    var url = "https://data.buffalony.gov/resource/p7e8-krif.json";
+        var response = httpClient.request(url,{
+        method:'GET',
+        params:{case_reference:content},
+    });
+    var caseStatus = JSON.parse(response.content);
+    
+    if (caseStatus[0].subject == 'Buffalo Police Department'){
+        if (caseStatus[0].police_district == 'District A'){
+            sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168514415");
+        }
+        else if (caseStatus[0].police_district == 'District B'){
+            sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168514403");
+        }
+        else if (caseStatus[0].police_district == 'District C'){
+            sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168514412");
+        }
+        else if (caseStatus[0].police_district == 'District D'){
+            sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168514413");
+        }
+        else if (caseStatus[0].police_district == 'District E'){
+            sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168514416");
+        }
+        else if (!caseStatus[0].police_district){
+            sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168514444");
+        }
+    }    
+    else if (caseStatus[0].subject == 'Buffalo Municipal Housing Authority'){
+        sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168556774");
+    }
+    else if (caseStatus[0].subject == 'Dept of Public Works'){
+        sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168515636");
+    }
+    else if (caseStatus[0].subject == 'Dept of Law'){
+        sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168514343");
+    }
+    else if (caseStatus[0].subject == 'Office of the Mayor'){
+        sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168514841");
+    }
+    else if (caseStatus[0].subject == 'Dept of Parking'){
+        sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168515182");
+    }
+    else if (caseStatus[0].subject == 'City Clerk'){
+        sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168515431");
+    }
+    else if (caseStatus[0].subject == 'Office of Strategic Planning'){
+        sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168514769");
+    }
+    else if (caseStatus[0].subject == 'Assessment & Taxation'){
+        sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168515733");
+    }
+    else if (caseStatus[0].subject == 'Utilities'){
+        if (caseStatus[0].reason == 'National Grid'){
+            sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 8006424272");
+        }
+        else if (caseStatus[0].reason == 'Buffalo Water Authority'){
+            sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168471065");
+        }
+        else if (caseStatus[0].reason == 'Buffalo Sewer Authority'){
+            sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168514664");
+        }
+    }
+    else if (caseStatus[0].subject == 'DPIS'){
+        sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type + "\nPhone Number: 7168514949");
+    }
+    else if (!caseStatus[0].subject){
+        sendReply("Reference: " + contact.vars.case_reference + "\nStatus: " + caseStatus[0].status + "\nDepartment: " + caseStatus[0].subject + "\nReason: " + caseStatus[0].type);
+    }
+});
+
+addResponseHandler('zip', function(){
+    contact.vars.zip = content;
+    var url = "https://data.buffalony.gov/resource/p7e8-krif.json?status=Open&zip_code=" + contact.vars.zip;
+    var response = httpClient.request(url);
+    var caseStatus = JSON.parse(response.content);
+    var hippos = caseStatus.length;
+    sendReply("There are " + hippos + " open Buffalo 311 cases in ZIP code " + contact.vars.zip + ".\n\nMore details at: https://bit.ly/2qRweAZ");
+});
+
+addResponseHandler('street', function(){
+    contact.vars.street = content;
+    var wizard = (contact.vars.street || "").toUpperCase();
+    var wizard1 = (contact.vars.street || "").charAt(0).toUpperCase() + (contact.vars.street|| "").slice(1).toLowerCase();
+    
+    var url = "https://data.buffalony.gov/resource/p7e8-krif.json?status=Open&address_line_1=" + wizard;
+    var url1 = "https://data.buffalony.gov/resource/p7e8-krif.json?status=Open&address_line_1=" + wizard1 + "%20Ave";
+    var url2 = "https://data.buffalony.gov/resource/p7e8-krif.json?status=Open&address_line_1=" + wizard1 + "%20St";
+    var url3 = "https://data.buffalony.gov/resource/p7e8-krif.json?status=Open&address_line_1=" + wizard1 + "%20Pkwy";
+    var url4 = "https://data.buffalony.gov/resource/p7e8-krif.json?status=Open&address_line_1=" + wizard1 + "%20Dr";
+    
+    var response = httpClient.request(url);
+    var caseStatus = JSON.parse(response.content);
+    
+    var response1 = httpClient.request(url1);
+    var caseStatus1 = JSON.parse(response1.content);
+    
+    var response2 = httpClient.request(url2);
+    var caseStatus2 = JSON.parse(response2.content);
+    
+    var response3 = httpClient.request(url3);
+    var caseStatus3 = JSON.parse(response3.content);
+    
+    var response4 = httpClient.request(url4);
+    var caseStatus4 = JSON.parse(response4.content);
+    
+    var gulf = caseStatus.length + caseStatus1.length + caseStatus2.length + caseStatus3.length + caseStatus4.length;
+    sendReply("There are " + gulf + " open Buffalo 311 cases on " + wizard1 + ".\n\nMore details at: https://bit.ly/2qRweAZ");
+});
